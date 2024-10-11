@@ -1,0 +1,41 @@
+plugins {
+  id 'java'
+  id 'war' // web application archive: 웹 애플리케이션 배포를 위한 설정
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {  // 여기서활성화
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.11.0-M2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+dependencies {  // 의존성
+  compileOnly('jakarta.platform:jakarta.jakartaee-web-api:11.0.0-M3')  // 이것을 사용할거다
+
+  implementation('org.glassfish.jersey.containers:jersey-container-servlet:4.0.0-M1')
+  implementation('org.glassfish.jersey.media:jersey-media-json-jackson:4.0.0-M1')
+  implementation('org.glassfish.jersey.inject:jersey-cdi2-se:4.0.0-M1')
+  implementation('org.jboss.weld.se:weld-se-core:6.0.0.Beta1')   // 서블릿, 완전히 실행시키지않고 배포
+
+  implementation('mysql:mysql-connector-java:8.0.33')
+
+
+
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+useJUnitPlatform()}
